@@ -47,11 +47,12 @@ sub _match_all {
     my %regex;
     for my $key ( keys %$match ) {
         if ( !ref $match->{ $key } ) {
-            $regex{ $key } = qr{^$match->{$key}$};
+            $regex{ $key } = qr{^\Q$match->{$key}\E$};
         }
         elsif ( ref $match->{ $key } eq 'HASH' ) {
             if ( my $value = $match->{ $key }{ -like } ) {
-                $value =~ s/%/.*/g;
+                $value = quotemeta $value;
+                $value =~ s/(?<!\\)\\%/.*/g;
                 $regex{ $key } = qr{^$value$};
             }
             else {
