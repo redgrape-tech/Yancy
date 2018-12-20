@@ -188,6 +188,10 @@ END {
                 'x-order' => 6,
                 type => [qw( integer null )],
             },
+            plugin => {
+                'x-order' => 7,
+                type => [qw( string null )],
+            },
         },
     },
 );

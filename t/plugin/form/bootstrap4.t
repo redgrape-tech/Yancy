@@ -431,6 +431,7 @@ subtest 'form_for' => sub {
         access => 'user',
         username => 'preaction',
         age => 35,
+        plugin => 'password',
     );
     my $html = $plugin->form_for( 'user', item => \%item );
     #; diag $html;
@@ -445,18 +446,18 @@ subtest 'form_for' => sub {
 
     subtest 'form fields' => sub {
         my $fields = $dom->find( '.form-group' );
-        is $fields->size, 8, 'found 8 fields';
+        is $fields->size, 9, 'found 9 fields';
         #; diag $fields->each;
         my $labels = $fields->map( at => 'label' )->grep( sub { defined } );
-        is $labels->size, 8, 'found 8 labels';
+        is $labels->size, 9, 'found 9 labels';
         #; diag $labels->each;
         is_deeply [ $labels->map( 'text' )->each ],
-            [ 'id', 'E-mail Address *', 'password *', 'name', 'access', 'username *', 'age', 'bio' ],
+            [ 'id', 'E-mail Address *', 'password *', 'name', 'access', 'username *', 'age', 'plugin', 'bio' ],
             'label texts in correct order';
         my $inputs = $fields->map( at => 'input,select,textarea' )->grep( sub { defined } );
-        is $inputs->size, 7, 'found 7 inputs (1 is read-only)';
+        is $inputs->size, 8, 'found 8 inputs (1 is read-only)';
         is_deeply [ $inputs->map( attr => 'name' )->each ],
-            [ 'email', 'password', 'name', 'access', 'username', 'age', 'bio' ],
+            [ 'email', 'password', 'name', 'access', 'username', 'age', 'plugin', 'bio' ],
             'input names in correct order';
 
         my $id_input = $dom->at( 'p[data-name=id]' );
@@ -514,11 +515,11 @@ subtest 'form_for' => sub {
         my $form = $dom->children->[0];
 
         my $fields = $dom->find( '.form-group' );
-        is $fields->size, 8, 'found 8 fields';
+        is $fields->size, 9, 'found 9 fields';
         my $labels = $fields->map( at => 'label' )->grep( sub { defined } );
-        is $labels->size, 8, 'found 8 labels';
+        is $labels->size, 9, 'found 9 labels';
         my $inputs = $fields->map( at => 'input,select,textarea' )->grep( sub { defined } );
-        is $inputs->size, 7, 'found 7 inputs (1 is read-only)';
+        is $inputs->size, 8, 'found 8 inputs (1 is read-only)';
 
         my $email_input = $dom->at( 'input[name=email]' );
         is $email_input->attr( 'type' ), 'email',

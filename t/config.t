@@ -94,6 +94,10 @@ subtest 'read_schema' => sub {
                         'x-order' => 6,
                         type => [qw( integer null )],
                     },
+                    plugin => {
+                        'x-order' => 7,
+                        type => [qw( string null )],
+                    },
                 },
             },
             'user schema read from database'

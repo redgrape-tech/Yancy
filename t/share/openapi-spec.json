@@ -99,6 +99,10 @@
             "age" : {
                "type" : [ "integer", "null" ],
                "x-order" : 6
+            },
+            "plugin": {
+                "type": [ "string", "null" ],
+                "x-order" : 7
             }
          },
          "required" : [ "username", "email", "password" ],

@@ -82,6 +82,10 @@ my $collections = {
                 type => [qw( integer null )],
                 'x-order' => 6,
             },
+            plugin => {
+                'x-order' => 7,
+                type => [qw( string null )],
+            },
         },
     },
     mojo_migrations => { 'x-ignore' => 1 },
@@ -257,6 +261,10 @@ sub test_api {
                 age => {
                     'x-order' => 6,
                     type => [ 'integer', 'null' ],
+                },
+                plugin => {
+                    'x-order' => 7,
+                    type => [ 'string', 'null' ],
                 },
             },
             'x-list-columns' => [qw( username email )],
