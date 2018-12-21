@@ -93,13 +93,7 @@ sub register {
         if ( $config->{route} ) {
             $plugin_conf->{route} //= $config->{route}->any( lc $name );
         }
-        my $plugin = $class->new( {
-            (   # Merge top-level config with plugin config
-                map {; $_ => $config->{ $_ } }
-                qw( collection username_field password_field )
-            ),
-            %$plugin_conf,
-        } );
+        my $plugin = $class->new( { %$config, %$plugin_conf } );
         push @{ $self->_plugins }, $plugin;
         # Plugin hashref overrides config from main Auth plugin
         $plugin->init( $app, { %$config, %$plugin_conf } );
