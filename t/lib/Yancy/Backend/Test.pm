@@ -44,16 +44,16 @@ sub get {
 
 sub _match_all {
     my ( $match, $item ) = @_;
-    my %regex;
+    my %test;
     for my $key ( keys %$match ) {
         if ( !ref $match->{ $key } ) {
-            $regex{ $key } = qr{^\Q$match->{$key}\E$};
+            $test{ $key } = $match->{ $key };
         }
         elsif ( ref $match->{ $key } eq 'HASH' ) {
             if ( my $value = $match->{ $key }{ -like } ) {
                 $value = quotemeta $value;
                 $value =~ s/(?<!\\)\\%/.*/g;
-                $regex{ $key } = qr{^$value$};
+                $test{ $key } = qr{^$value$};
             }
             else {
                 die "Unknown query type: " . to_json( $match->{ $key } );
@@ -63,7 +63,10 @@ sub _match_all {
             die "Unknown match ref type: " . to_json( $match->{ $key } );
         }
     }
-    return ( grep { $item->{ $_ } =~ $regex{ $_ } } keys %regex ) == keys %regex;
+    my $passes
+        = grep { ref $test{ $_ } ? $item->{ $_ } =~ $test{ $_ } : $item->{ $_ } eq $test{ $_ } }
+        keys %test;
+    return $passes == keys %test;
 }
 
 sub list {
